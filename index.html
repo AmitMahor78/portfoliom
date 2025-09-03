@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Portfolio</title>
+  <meta name="description" content="Clean, responsive portfolio template in plain HTML/CSS/JS." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --panel: #0f1525;
+      --text: #e6e9f0;
+      --muted: #9ba3b4;
+      --brand: #6ea8fe;
+      --brand-2: #9d7bff;
+      --line: #1f2a44;
+      --ok: #2ecc71;
+      --warn: #f1c40f;
+      --danger: #ff6b6b;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    :root.light {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #0e1222;
+      --muted: #5b6477;
+      --brand: #3b82f6;
+      --brand-2: #7c3aed;
+      --line: #e9edf5;
+      --shadow: 0 10px 30px rgba(32, 56, 117, .12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(110,168,254,.15), transparent 40%),
+                  radial-gradient(1000px 600px at -20% 0%, rgba(157,123,255,.18), transparent 40%), var(--bg);
+      color: var(--text);
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* Layout */
+    .container { width: min(1100px, 92vw); margin: 0 auto; }
+    .grid { display: grid; gap: 22px; }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+             backdrop-filter: saturate(110%) blur(4px); }
+
+    /* Top nav */
+    .nav { position: sticky; top: 0; z-index: 30; backdrop-filter: blur(8px); background: color-mix(in oklab, var(--bg) 85%, transparent); border-bottom: 1px solid var(--line); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; }
+    .brand { display: flex; gap: 10px; align-items: center; font-weight: 800; letter-spacing: .2px; }
+    .brand-badge { width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); display: grid; place-items: center; font-weight: 800; color: white; box-shadow: var(--shadow); }
+    .nav-links { display: flex; gap: 18px; align-items: center; }
+    .nav a { color: var(--muted); font-weight: 600; padding: 8px 12px; border-radius: 10px; }
+    .nav a:hover, .nav a:focus-visible { color: var(--text); background: color-mix(in oklab, var(--brand) 18%, transparent); }
+    .theme-toggle, .menu-toggle { border: 1px solid var(--line); background: var(--panel); color: var(--text); padding: 8px 12px; border-radius: 12px; font-weight: 600; cursor: pointer; }
+    .menu-toggle { display: none; }
+
+    /* Mobile menu */
+    .mobile-menu { display: none; }
+
+    /* Hero */
+    .hero { padding: 64px 0 28px; }
+    .hero .wrap { display: grid; grid-template-columns: 1.2fr .8fr; gap: 28px; align-items: center; }
+    .kicker { display: inline-flex; align-items: center; gap: 10px; padding: 6px 10px; border: 1px dashed var(--line); border-radius: 999px; color: var(--muted); font-weight: 600; }
+    .kicker .dot { width: 10px; height: 10px; border-radius: 999px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand) 25%, transparent); }
+    h1 { font-size: clamp(28px, 5vw, 48px); line-height: 1.1; margin: 14px 0 10px; }
+    .hero p { margin: 0 0 18px; color: var(--muted); font-size: clamp(14px, 2vw, 18px); }
+    .cta { display: inline-flex; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 16px; border-radius: 12px; font-weight: 700; border: 1px solid var(--line); background: var(--panel); color: var(--text); }
+    .btn.primary { background: linear-gradient(135deg, var(--brand), var(--brand-2)); border: none; color: #fff; }
+    .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+
+    .hero-card { padding: 18px; display: grid; gap: 14px; }
+    .avatar { width: 120px; aspect-ratio: 1; border-radius: 20px; border: 2px solid var(--line); background: linear-gradient(135deg, rgba(110,168,254,.2), rgba(157,123,255,.2)); overflow: hidden; }
+    .badges { display: flex; gap: 10px; flex-wrap: wrap; }
+    .badge { padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-weight: 600; font-size: 12px; }
+
+    /* Sections */
+    section { padding: 36px 0; }
+    .section-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .section-title h2 { font-size: clamp(20px, 3vw, 28px); margin: 0; }
+    .section-title p { color: var(--muted); margin: 0; }
+
+    /* Skills */
+    .skills { grid-template-columns: repeat(12, 1fr); }
+    .chip { padding: 10px 12px; border: 1px solid var(--line); border-radius: 999px; display: inline-flex; gap: 8px; align-items: center; font-weight: 600; color: var(--muted); }
+
+    /* Projects */
+    .projects { grid-template-columns: repeat(12, 1fr); }
+    .card { grid-column: span 6; padding: 16px; display: grid; gap: 10px; transition: transform .15s ease; }
+    .card:hover { transform: translateY(-3px); }
+    .thumb { width: 100%; aspect-ratio: 16/9; border-radius: 14px; border: 1px solid var(--line); background: linear-gradient(135deg, rgba(110,168,254,.09), rgba(157,123,255,.09)); }
+    .card h3 { margin: 2px 0; font-size: 18px; }
+    .meta { color: var(--muted); font-size: 14px; }
+    .tag { padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; font-size: 12px; color: var(--muted); }
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* Timeline */
+    .timeline { display: grid; gap: 12px; }
+    .item { display: grid; gap: 8px; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+    .item strong { font-size: 16px; }
+
+    /* Contact */
+    form { display: grid; gap: 12px; }
+    .field { display: grid; gap: 6px; }
+    .input, textarea { padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: color-mix(in oklab, var(--panel) 94%, transparent); color: var(--text); }
+    textarea { min-height: 120px; resize: vertical; }
+
+    .footer { padding: 24px 0 46px; color: var(--muted); text-align: center; font-size: 14px; }
+
+    /* Utilities */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero .wrap { grid-template-columns: 1fr; }
+      .card { grid-column: span 12; }
+      .split { grid-template-columns: 1fr; }
+      .menu-toggle { display: inline-flex; }
+      .nav-links { display: none; }
+      .mobile-menu { display: grid; padding: 10px; gap: 6px; border-bottom: 1px solid var(--line); }
+      .mobile-menu a { padding: 10px 12px; border-radius: 10px; color: var(--muted); font-weight: 600; }
+      .mobile-menu a:hover { background: color-mix(in oklab, var(--brand) 18%, transparent); color: var(--text); }
+    }
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand" aria-label="Home">
+        <div class="brand-badge" aria-hidden="true">∎</div>
+        <span>AMIT MAHOR</span>
+      </div>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌗</button>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+    </div>
+    <div class="container mobile-menu" id="mobileMenu" hidden>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle theme">🌗</button>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="hero">
+      <div class="wrap">
+        <div>
+          <span class="kicker"><span class="dot"></span> Hello, I'm</span>
+          <h1>AMIT MAHOR — <span style="background:linear-gradient(135deg,var(--brand),var(--brand-2)); -webkit-background-clip:text; background-clip:text; color:transparent">DATA ANALYTICS</span></h1>
+          <p>I am a detail-oriented data analytics enthusiast with a strong foundation in statistical analysis, data visualization, and SQL. My approach combines technical precision with business insight to uncover actionable trends and patterns. I thrive on transforming raw data into meaningful stories that drive smarter decisions.</p>
+          <div class="cta">
+            <a class="btn primary" href="#projects">View Projects</a>
+            <a class="btn" href="#contact">Contact Me</a>
+          </div>
+          <div class="badges" style="margin-top:14px">
+            <span class="badge">Open to work</span>
+            <span class="badge">Remote • On‑site</span>
+            <span class="badge">Morena, IN</span>
+          </div>
+        </div>
+        <div class="panel hero-card">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <img class="avatar" src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" alt="Profile" />
+            <div>
+              <strong>AMIT MAHOR</strong>
+              <p class="meta" style="margin:4px 0 0">DATA ANLYTICS & FRONT END DEVLOPER</p>
+            </div>
+          </div>
+          <div class="grid" style="grid-template-columns: repeat(3,1fr); gap: 10px;">
+            <div class="panel" style="padding:12px; text-align:center">
+              <div style="font-weight:800;">1+</div>
+              <div class="meta">Years Experience</div>
+            </div>
+            <div class="panel" style="padding:12px; text-align:center">
+              <div style="font-weight:800;">30+</div>
+              <div class="meta">Projects</div>
+            </div>
+          </div>
+          <div class="badges">
+            <span class="chip">📧 amitmahor613@gmail.com</span>
+            <a class="chip" href="https://github.com/AmitMahor78" target="_blank" rel="noopener">🐱 GitHub</a>
+            <a class="chip" href="https://www.linkedin.com/in/amit-mahor-68b336327" target="_blank" rel="noopener">in LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-title">
+        <h2>About</h2>
+        <p>Short intro</p>
+      </div>
+      <div class="panel" style="padding:18px">
+        <div class="split">
+          <p>I'm a data analytics enthusiast with a passion for uncovering insights that drive smarter decisions. With a solid foundation in SQL, Excel, Python, and data visualization tools like Tableau and Power BI, I specialize in transforming raw datasets into meaningful stories. My approach blends technical precision with business understanding, helping teams make informed, data-driven choices.</p>
+          <ul>
+            <li>🌱 Learning: Python, MySQL,Tableau</li>
+            <li>🛠️ Tools: VS Code, Git</li>
+            <li>💬 Languages: English, Hindi</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-title">
+        <h2>Skills</h2>
+        <p>Tech I use regularly</p>
+      </div>
+      <div class="grid skills">
+          <span class="chip">Python</span>
+          <span class="chip">MySQL</span>
+          <span class="chip">Git</span>
+          <span class="chip">PANDAS</span>
+         <span class="chip">MATPLOTLIB</span>
+        <span class="chip">HTML5</span>
+        <span class="chip">CSS3</span>
+        <span class="chip">JavaScript</span>
+       
+        <span class="chip">React</span>
+        <!-- <span class="chip">Node.js</span>
+        <span class="chip">Express</span>
+        <span class="chip">MongoDB</span> -->
+       
+        <!-- <span class="chip">REST APIs</span> -->
+       
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-title">
+        <h2>Projects</h2>
+        <p>Selected work</p>
+      </div>
+      <div class="grid projects">
+        <article class="panel card" aria-labelledby="p1">
+          <img src="stockmarket.png" alt="">
+          <h3 id="p1">STOCK MARKET CHART</h3>
+          <p class="meta">PANDAS • MATPLOTLIB • NUMPY</p>
+          <p>Stock market Charts(Pie,linearand etc)</p>
+          <div class="tags">
+            <a class="tag" href="https://github.com/AmitMahor78/stockmarket">Live</a>
+            <a class="tag" href="#">Code</a>
+          </div>
+        </article>
+        <article class="panel card" aria-labelledby="p2">
+          <img src="zomato.png" alt="">
+          <h3 id="p2">ZOMATO Analysis</h3>
+          <p class="meta">PANDAS • MATPLOTLIB • NUMPY</p>
+          <p>Analytics dashboard with auth, charts, and based on Votes and Restuarant</p>
+          <div class="tags">
+            <a class="tag" href="https://github.com/AmitMahor78/Zomatohotelanalysis">Live</a>
+            <a class="tag" href="#">Code</a>
+          </div>
+        </article>
+        <article class="panel card" aria-labelledby="p3">
+          <img src="ipldata.png" alt="">
+          <h3 id="p3">IPL data Analysis</h3>
+         <p class="meta">PANDAS • MATPLOTLIB • NUMPY</p>
+          <p>Analysis the data ipl in which include which team most wins and most played mathces and etc.</p>
+          <div class="tags">
+            <a class="tag" href="https://github.com/AmitMahor78/ipldata">Live</a>
+            <a class="tag" href="#">Code</a>
+          </div>
+        </article>
+        <article class="panel card" aria-labelledby="p4">
+          <img src="top10batter.png" alt="">
+          <h3 id="p4">Analysis Data of ICC Better</h3>
+           <p class="meta">PANDAS • MATPLOTLIB • NUMPY</p>
+          <p>In this project, I explored dataset of Top 10 ICC Men's Cricket batter by Runs after drawing piechart.
+This project i use python library pandas and matplotlib for Visualization of dataset.</p>
+          <div class="tags">
+            <a class="tag" href="https://github.com/AmitMahor78/iccodibatter">Live</a>
+            <a class="tag" href="#">Code</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="section-title">
+        <h2>Experience</h2>
+        <p>Where I've worked</p>
+      </div>
+      <div class="timeline">
+        <div class="item">
+          <div class="meta">MyDailyWork (Apr 2025 – May 2025) </div>
+          <strong>Web Developer Intern</strong>
+          <p> Developed and maintained responsive web applications using HTML, CSS, JavaScript, and 
+ReactJS.
+<br>
+ Improved UI performance and accessibility across multiple devices. <br>Collaborated with team members to integrate REST APIs and enhance functionality. .</p>
+        </div>
+        <div class="item">
+          <div class="meta"> InfoTech (May 2025 – Jun 2025) </div>
+          <strong>JAVA Developer Intern</strong>
+          <p> Contributed to backend logic and Java-based projects. 
+<br>
+Worked with MySQL databases for data storage and retrieval.  <br> Applied problem-solving skills in real-world projects and collaborated with cross
+functional teams.</p>
+      
+        </div>
+      </div>
+    </section>
+<section id="contact"> 
+  <h2>Contact Me</h2>
+  <h4>Email: amitmahor613@gmail.com</h4>
+  <h4>Phone: 7879194316</h4>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      © <span id="year"></span> YOUR NAME · Built with ❤️ in HTML/CSS/JS
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle (persist to localStorage)
+    const applyTheme = (t) => document.documentElement.classList.toggle('light', t === 'light');
+    const getTheme = () => localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    const setTheme = (t) => { localStorage.setItem('theme', t); applyTheme(t); };
+    applyTheme(getTheme());
+
+    const themeBtn = document.getElementById('themeToggle');
+    const themeBtnMobile = document.getElementById('themeToggleMobile');
+    const switchTheme = () => setTheme(getTheme() === 'light' ? 'dark' : 'light');
+    themeBtn?.addEventListener('click', switchTheme);
+    themeBtnMobile?.addEventListener('click', switchTheme);
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => {
+      const hidden = mobileMenu.hasAttribute('hidden');
+      mobileMenu.toggleAttribute('hidden');
+      menuBtn.setAttribute('aria-expanded', hidden ? 'true' : 'false');
+    });
+
+    // Scroll spy + back to top
+    const toTop = document.getElementById('toTop');
+    const onScroll = () => {
+      toTop.style.display = window.scrollY > 800 ? 'inline-flex' : 'none';
+    };
+    window.addEventListener('scroll', onScroll);
+    toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+    // Simple form validation (demo only)
+    const form = document.getElementById('contactForm');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let ok = true;
+      const name = document.getElementById('name');
+      const email = document.getElementById('email');
+      const msg = document.getElementById('msg');
+      const nameErr = document.getElementById('nameErr');
+      const emailErr = document.getElementById('emailErr');
+      const msgErr = document.getElementById('msgErr');
+      nameErr.textContent = emailErr.textContent = msgErr.textContent = '';
+      if (!name.value.trim()) { nameErr.textContent = 'Name is required'; ok = false; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value)) { emailErr.textContent = 'Enter a valid email'; ok = false; }
+      if (!msg.value.trim() || msg.value.length < 10) { msgErr.textContent = 'Message must be at least 10 characters'; ok = false; }
+      const status = document.getElementById('formStatus');
+      if (ok) {
+        status.textContent = 'Thanks! This demo doesn\'t send emails, but you can hook it to Formspree/EmailJS.';
+        form.reset();
+      } else {
+        status.textContent = 'Please fix the errors above.';
+      }
+    });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Basic reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.animate([
+            { transform: 'translateY(8px)', opacity: .0 },
+            { transform: 'translateY(0)', opacity: 1 }
+          ], { duration: 400, easing: 'ease-out', fill: 'forwards' });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .1 });
+    document.querySelectorAll('section .panel, .card, .timeline .item').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
