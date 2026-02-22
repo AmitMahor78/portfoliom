@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Certificates - Amit Mahor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .certificates {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>My Certificates</h1>
+
+<div class="certificates">
+
+    <!-- Frontend Certificate -->
+    <div class="card">
+        <img src="/frontendsololearn.jpg" alt="Front-end Certificate">
+        <div class="card-content">
+            <h3>Front-end for Beginners</h3>
+            <p>Sololearn</p>
+            <a href="#" class="btn" target="_blank">View Certificate</a>
+        </div>
+    </div>
+
+    <!-- Coding for Data -->
+    <div class="card">
+        <img src="/8bff81d0-4142-4047-b007-5a5714c21a88.png" alt="Coding for Data">
+        <div class="card-content">
+            <h3>Coding for Data</h3>
+            <p>Sololearn</p>
+            <a href="#" class="btn" target="_blank">View Certificate</a>
+        </div>
+    </div>
+
+    <!-- JavaScript Intermediate -->
+    <div class="card">
+        <img src="/9da84b4b-4509-423e-bd34-de523a814e07.png" alt="JavaScript Intermediate">
+        <div class="card-content">
+            <h3>JavaScript Intermediate</h3>
+            <p>Sololearn</p>
+            <a href="#" class="btn" target="_blank">View Certificate</a>
+        </div>
+    </div>
+
+
+
+   
+
+</div>
+
+</body>
+</html>
